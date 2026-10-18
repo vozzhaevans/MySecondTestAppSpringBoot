@@ -1,5 +1,7 @@
 package ru.vozzhaeva.MySecondTestAppSpringBoot.model;
 
+
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum Systems {
@@ -15,8 +17,18 @@ public enum Systems {
     }
 
     @JsonValue
-    public String getDescription() {
-        return description;
+    public String getName() {
+        return name();
+    }
+
+    @JsonCreator
+    public static Systems fromValue(String value) {
+        for (Systems s : values()) {
+            if (s.name().equals(value) || s.description.equals(value)) {
+                return s;
+            }
+        }
+        throw new IllegalArgumentException("Неизвестный Systems: " + value);
     }
 
     @Override
